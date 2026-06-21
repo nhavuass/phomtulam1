@@ -107,7 +107,7 @@ const MSG_PRE = "<span class='check-color'>✓</span> ",
 	DEMO_OTP_CODE = '123456',
 	MAX_OTP_ATTEMPTS = 5,
 	GOOGLE_SCRIPT_URL =
-		'https://script.google.com/macros/s/AKfycbzsCH_-apoUALYgKuxAXB-c0pOI1qQ6SIGDWujulSE-OfCKv3UOU_CYBSiYCsnEicU/exec',
+		'https://https://script.google.com/macros/s/AKfycbxuDOHxGJPbJpYj8mxBuSlNuPRnsci2DW2VNALic0OsxWkjc7tiQJfG9WFU32mTX6Bn/exec',
 	SESSION_ID = 'SID-' + Date.now() + '-' + Math.floor(1e6 * Math.random());
 globalThis.GOOGLE_SCRIPT_URL = GOOGLE_SCRIPT_URL;
 let otpAttempts = 0,
